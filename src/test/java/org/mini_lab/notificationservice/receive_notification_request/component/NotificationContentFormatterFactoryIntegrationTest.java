@@ -32,6 +32,6 @@ class NotificationContentFormatterFactoryIntegrationTest {
     void get_whenTypeIsNull_thenThrowNullPointerException() {
         assertThatThrownBy(() -> formatterFactory.get(null))
                 .isInstanceOf(NullPointerException.class)
-                .hasMessage(ErrorCode.NOTIFICATION_TYPE_NON_NULL.getDefaultMessage());
+                .hasMessage(ErrorCode.NOTIFICATION_TYPE_INVALID.getDefaultMessage());
     }
 }

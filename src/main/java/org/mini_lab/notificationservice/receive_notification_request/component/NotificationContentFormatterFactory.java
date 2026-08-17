@@ -1,7 +1,6 @@
 package org.mini_lab.notificationservice.receive_notification_request.component;
 
 import org.mini_lab.notificationservice.receive_notification_request.dto.NotificationType;
-import org.mini_lab.notificationservice.receive_notification_request.exception.NotificationTypeNotSupportedException;
 import org.mini_lab.notificationservice.shared.error_code.ErrorCode;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,7 @@ public class NotificationContentFormatterFactory {
     public NotificationContentFormatter get(NotificationType type) {
         Objects.requireNonNull(
                 type,
-                ErrorCode.NOTIFICATION_TYPE_NON_NULL.getDefaultMessage()
+                ErrorCode.NOTIFICATION_TYPE_INVALID.getDefaultMessage()
         );
         return formatters.get(type);
     }

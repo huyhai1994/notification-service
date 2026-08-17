@@ -6,8 +6,6 @@ import org.mini_lab.notificationservice.receive_notification_request.component.N
 import org.mini_lab.notificationservice.receive_notification_request.component.NotificationContentFormatterFactory;
 import org.mini_lab.notificationservice.receive_notification_request.dto.NotificationRequest;
 import org.mini_lab.notificationservice.receive_notification_request.dto.NotificationResponse;
-import org.mini_lab.notificationservice.receive_notification_request.exception.NotificationTypeNotSupportedException;
-import org.mini_lab.notificationservice.shared.error_code.ErrorCode;
 import org.mini_lab.notificationservice.support.MockNotificationRequest;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
