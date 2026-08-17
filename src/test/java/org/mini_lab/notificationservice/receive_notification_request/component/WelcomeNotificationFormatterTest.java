@@ -5,8 +5,6 @@ import org.mini_lab.notificationservice.receive_notification_request.dto.Notific
 import org.mini_lab.notificationservice.support.MockNotificationRequest;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThatPath;
-import static org.junit.jupiter.api.Assertions.*;
 
 class WelcomeNotificationFormatterTest {
     private final WelcomeNotificationFormatter welcomeNotificationFormatter = new WelcomeNotificationFormatter();
@@ -18,8 +16,6 @@ class WelcomeNotificationFormatterTest {
         String welcomeEmail = welcomeNotificationFormatter.format(notificationRequest);
         assertThat(welcomeEmail).isNotNull();
         assertThat(welcomeEmail).isEqualTo("Welcome " + notificationRequest.username() + " to our service");
-
-
     }
 
 

@@ -8,6 +8,5 @@ public class LogNotificationSender implements NotificationSender {
     @Override
     public void send(String repcipient, String content) {
         log.info("SEND_NOTIFICATION to repcipient={} with content={}", repcipient, content);
-
     }
 }
