@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: notification-service-dev
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true

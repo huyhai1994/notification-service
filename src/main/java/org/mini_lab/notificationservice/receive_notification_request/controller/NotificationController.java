@@ -7,6 +7,7 @@ import org.mini_lab.notificationservice.receive_notification_request.dto.Notific
 import org.mini_lab.notificationservice.receive_notification_request.service.NotificationService;
 import org.mini_lab.notificationservice.shared.constant.Constant;
 import org.mini_lab.notificationservice.shared.response.ApiResponse;
+import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,12 @@ public class NotificationController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<NotificationResponse>> process(@RequestBody @Valid NotificationRequest request) {
-        NotificationResponse response = notificationService.process(request);
-        return ResponseEntity.ok()
-                .body(ApiResponse.success(response));
+        try (MDC.MDCCloseable ignored =
+                     MDC.putCloseable("eventId", request.eventId().toString())) {
+            NotificationResponse response = notificationService.process(request);
+            return ResponseEntity.ok()
+                    .body(ApiResponse.success(response));
+        }
     }
 
 }

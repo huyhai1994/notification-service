@@ -32,7 +32,7 @@
 
             <message>
                 <pattern>
-                    %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %X{correlationId} %logger{36} - %msg %ex{10}
+                    %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]correlationId=%X{correlationId:-N/A} eventId=%X{eventId:-N/A} - %logger{36} - %msg %ex{10}%n
                 </pattern>
             </message>
             <batch>

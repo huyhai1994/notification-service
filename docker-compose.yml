@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports:
+      - "20010:20010"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      OTEL_SERVICE_NAME: notification-service-dev
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://host.docker.internal:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=dev,service.version=0.0.1
+      OTEL_TRACES_SAMPLER: always_on
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    restart: unless-stopped
+
+    networks:
+      - backend-network
+networks:
+  backend-network:
+    driver: bridge
