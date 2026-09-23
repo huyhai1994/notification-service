@@ -3,3 +3,16 @@ spring:
     redis:
       host: localhost
       port: 6379
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          redis: debug
+    io:
+      lettuce:
+        core: debug
+app:
+  redis:
+    key: test.notification:eventId
+    ttl: 1
