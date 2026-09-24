@@ -2,10 +2,11 @@ package org.mini_lab.notificationservice.receive_notification_request.component;
 
 import org.junit.jupiter.api.Test;
 import org.mini_lab.notificationservice.support.AbstractIntegrationTest;
+import org.mini_lab.notificationservice.support.MockNotificationRequest;
+import org.mini_lab.notificationservice.support.json.ObjectMapperConfig;
 import org.mini_lab.notificationservice.support.kafka.KafkaProducerTestConfiguration;
 import org.mini_lab.notificationservice.support.kafka.KafkaTestConfiguration;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,7 +32,8 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 @Import({
         KafkaProducerTestConfiguration.class,
-        KafkaTestConfiguration.class
+        ObjectMapperConfig.class,
+        KafkaTestConfiguration.class,
 }
 )
 class UserRegisterEventConsumerIntegrationTest extends AbstractIntegrationTest {
@@ -39,11 +43,8 @@ class UserRegisterEventConsumerIntegrationTest extends AbstractIntegrationTest {
 
     public static final String KEY = "user-1";
 
-    public static final String PAYLOAD = """
-            {
-              "event": "USER_REGISTERED"
-            }
-            """;
+    @Autowired
+    ObjectMapper objectMapperTest;
 
     @MockitoSpyBean
     UserRegisterEventConsumer userRegisterEventConsumer;
@@ -53,6 +54,12 @@ class UserRegisterEventConsumerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void send_whenEventSentSuccess_thenVerifyTopicMetadata() throws ExecutionException, InterruptedException, TimeoutException {
+        final String PAYLOAD;
+        try {
+            PAYLOAD = objectMapperTest.writeValueAsString(MockNotificationRequest.getValidNotificationRequest());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         CompletableFuture<SendResult<String, String>> future =
                 kafkaTemplate.send(
@@ -77,6 +84,7 @@ class UserRegisterEventConsumerIntegrationTest extends AbstractIntegrationTest {
                                     ArgumentCaptor.forClass(String.class);
                             verify(userRegisterEventConsumer, times(1)).consume(messageCaptor.capture());
                             assertThat(messageCaptor.getValue()).isEqualTo(PAYLOAD);
+                            assertThat(userRegisterEventConsumer.mapFrom(messageCaptor.getValue()));
                         });
 
     }
