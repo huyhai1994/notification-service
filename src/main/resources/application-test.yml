@@ -3,14 +3,27 @@ spring:
     redis:
       host: localhost
       port: 6379
+
   kafka:
     bootstrap-servers: localhost:9092
+
+    client-id: notification-service
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+
     consumer:
       group-id: notification-service
       auto-offset-reset: earliest
 
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer:
+        org.apache.kafka.common.serialization.StringDeserializer
+
+    admin:
+      fail-fast: true
 logging:
   level:
     org:
@@ -25,5 +38,5 @@ app:
     key: test.notification:eventId
     ttl: 1
   kafka:
-    topic: "test.notifications.register-events.v1"
-    group-id: "notification-service"
+    topic: test.notifications.register-events.v1
+    group-id: notification-service
