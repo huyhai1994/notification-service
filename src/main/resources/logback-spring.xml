@@ -6,7 +6,7 @@
 
     <property name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}"/>
     <property name="LOKI_URL" value="http://host.docker.internal:3100/loki/api/v1/push"/>
-    <property name="LOKI_K3S_URL" value="{LOKI_ENDPOINT}/loki/api/v1/push"/>
+    <property name="LOKI_K3S_URL" value="${LOKI_ENDPOINT}/loki/api/v1/push"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
