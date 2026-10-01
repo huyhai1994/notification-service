@@ -10,8 +10,12 @@ import java.util.concurrent.TimeUnit;
 public class LogNotificationSender implements NotificationSender {
 
     @Override
-    public void send(String repcipient, String content) throws InterruptedException {
-        TimeUnit.SECONDS.sleep(10);
+    public void send(String repcipient, String content) {
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         log.info("SEND_NOTIFICATION to repcipient={} with content={}", repcipient, content);
     }
 }
