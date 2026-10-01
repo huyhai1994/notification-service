@@ -9,8 +9,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Type;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -29,6 +27,5 @@ public class UserRegisterEventConsumer {
     public NotificationRequest mapFrom(String message) {
         return objectMapper.readValue(message, new TypeReference<>() {
         });
-
     }
 }
