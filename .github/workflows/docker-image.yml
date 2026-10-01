@@ -53,7 +53,7 @@ jobs:
         run: |
           sed -i \
             "s|image: huyhai1994/${{secrets.INFRA_PATH}}:.*|image: huyhai1994/${{secrets.INFRA_PATH}}:${{ github.sha }}|" \
-            file-upload-service/deployment.yml
+            ${{secrets.INFRA_PATH}}/deployment.yml
 
       - name: Show updated manifest
         run: |
