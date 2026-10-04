@@ -19,7 +19,7 @@ public class NotificationService {
     public NotificationResponse process(NotificationRequest request) {
         String stringEventId = String.valueOf(request.eventId());
         if (!Boolean.TRUE.equals(eventIdManager.persistEventId(stringEventId))) {
-            log.info("PROCESS_DUPLICATED_EVENT {}", stringEventId);
+            log.info("PROCESS_DUPLICATED_EVENT eventId = {}", stringEventId);
             return new NotificationResponse(request.eventId());
         }
         NotificationContentFormatter notificationContentFormatter =
