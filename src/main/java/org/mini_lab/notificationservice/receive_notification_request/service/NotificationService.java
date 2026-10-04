@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
     private final NotificationSender notificationSender;
     private final NotificationContentFormatterFactory notificationContentFormatterFactory;
+    private final EventIdManager eventIdManager;
 
-    public NotificationResponse process(NotificationRequest notificationRequest) {
-
+    public NotificationResponse process(NotificationRequest request) {
+        if (!Boolean.TRUE.equals(eventIdManager.persistEventId(String.valueOf(request.eventId())))) {
+            return new NotificationResponse(request.eventId());
+        }
         NotificationContentFormatter notificationContentFormatter =
-                notificationContentFormatterFactory.get(notificationRequest.notificationType());
+                notificationContentFormatterFactory.get(request.notificationType());
 
-        String content = notificationContentFormatter.format(notificationRequest);
+        String content = notificationContentFormatter.format(request);
 
-        notificationSender.send(notificationRequest.emailAddress(), content);
+        notificationSender.send(request.emailAddress(), content);
+        return new NotificationResponse(request.eventId());
 
-        return new NotificationResponse(notificationRequest.eventId());
     }
 
 
