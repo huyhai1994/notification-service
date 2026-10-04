@@ -18,7 +18,7 @@ public class EventIdManager {
     private long value;
 
     public Boolean persistEventId(String eventId) {
-        return stringRedisTemplate.opsForValue().setIfAbsent(key, eventId, Duration.ofSeconds(value));
+        return stringRedisTemplate.opsForValue().setIfAbsent(key, eventId, Duration.ofHours(value));
     }
 
     public String getEventId(String eventId) {

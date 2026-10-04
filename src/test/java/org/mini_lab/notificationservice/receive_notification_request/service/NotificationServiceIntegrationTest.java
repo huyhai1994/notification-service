@@ -37,7 +37,7 @@ class NotificationServiceIntegrationTest extends AbstractIntegrationTest {
                 MockNotificationRequest.getValidNotificationRequest();
 
         try (RaceConditionSimulator raceConditionSimulator =
-                     RaceConditionSimulator.getRaceConditionSimulator(2)) {
+                     RaceConditionSimulator.getRaceConditionSimulator(10)) {
 
             raceConditionSimulator.execute(
                     () -> notificationService.process(request)
