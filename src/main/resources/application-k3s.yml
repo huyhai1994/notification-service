@@ -22,6 +22,11 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer:
         org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        max:
+          poll:
+            interval.ms: 400000
+            records: 100
     admin:
       fail-fast: true
 logging:
